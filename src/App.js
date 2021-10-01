@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import styled from 'styled-components'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
@@ -30,6 +31,22 @@ const theme = createTheme({
 
 const App = () => {
 
+  const [assignments, setAssignments] = useState([])
+
+  const [activeCount, setActiveCount] = useState(0)
+
+  const [completeCount, setCompleteCount] = useState(0)
+
+  const baseURL = 'http://localhost:5000/api/v1'
+
+  useEffect(() => {
+    axios.get(`${baseURL}/assignments`).then((response) => {
+      setAssignments(response.data)
+      setActiveCount(response.data.filter(assignment => !assignment.complete).length)
+      setCompleteCount(response.data.filter(assignment => assignment.complete).length)
+    })
+  }, [])
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -40,9 +57,13 @@ const App = () => {
           </Toolbar>
         </AppBar>
         <Box mx={10}>
-          <Section type='Active' count={2} hours={6} />
-          <Assignment title="English Homework" date="Fri Oct 28th, 5:00PM" progress={26} />
-          <Section type='Completed' count={2} hours={2} />
+          <Section type='Active' count={activeCount} hours={6} />
+          {assignments.map((assignment, index) => {
+            return (
+              <Assignment key={index} name={assignment.name} date={assignment.date} progress={assignment.progress} />
+            )
+          })}
+          <Section type='Completed' count={completeCount} hours={2} />
         </Box>
       </Container>
     </ThemeProvider>

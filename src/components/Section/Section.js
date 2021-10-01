@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography'
 const Section = ({ type, count, hours }) => {
   return (
     <Box mt={6} mb={2}>
-      <Typography variant='h4'>{type}</Typography> 
-      <Typography variant='body1'>{count} assignments, {hours} hours</Typography> 
+      <Typography variant='h5'>{type}</Typography> 
+      <Typography variant='body2'>{count} assignments, {hours} hours</Typography> 
     </Box>
   )
 }
