@@ -1,12 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { red } from '@mui/material/colors'
+
+import Section from './components/Section/Section'
+import Assignment from './components/Assignment/Assignment'
 
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 
 const theme = createTheme({
   palette: {
@@ -22,8 +25,8 @@ const theme = createTheme({
       dark: '#ba000d',
       contrastText: '#000',
     },
-  },
-});
+  }
+})
 
 const App = () => {
 
@@ -36,14 +39,19 @@ const App = () => {
             <Button color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
+        <Box mx={10}>
+          <Section type='Active' count={2} hours={6} />
+          <Assignment title="English Homework" date="Fri Oct 28th, 5:00PM" progress={26} />
+          <Section type='Completed' count={2} hours={2} />
+        </Box>
       </Container>
     </ThemeProvider>
-  );
+  )
 }
 
-const Container = styled.div`
+const Container = styled(Box)`
   height: 100vh; 
-  background-color: gray;
+  background-color: #f6f6f6;
 `
 
 export default App;
