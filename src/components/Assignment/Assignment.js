@@ -6,12 +6,14 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardActionArea from '@mui/material/CardActionArea'
 import CircularProgress from '@mui/material/CircularProgress'
+import LinearProgress from '@mui/material/LinearProgress'
 import Typography from '@mui/material/Typography'
-//moment(date).format('dd MM, h:mm a')
+
 const Assignment = ( {name, date, progress, estimate} ) => {
   return (
     <Box mb={2}>
       <Card>
+        <LinearProgress variant="determinate" value={progress} />
         <CardActionArea>
           <CardContent style={{display: 'flex', justifyContent: 'space-between'}}>
             <Box>
