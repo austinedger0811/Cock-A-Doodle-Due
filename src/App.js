@@ -39,7 +39,7 @@ const App = () => {
     axios.get(`${baseURL}/assignments`).then((response) => {
       setAssignments(response.data)
     })
-  }, [assignments])
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,11 +53,11 @@ const App = () => {
         <Box mx={10}>
           <Section type='Active' count={assignments.filter(assignment => !assignment.complete).length} hours={assignments.filter(assignment => !assignment.complete).reduce((sum, assignment) => sum + assignment.estimate, 0)} />
           {assignments.filter(assignment => !assignment.complete).map((assignment, index) => {
-            return <Assignment key={index} name={assignment.name} date={assignment.date} progress={assignment.progress} />
+            return <Assignment key={index} name={assignment.name} date={assignment.date} progress={assignment.progress} description={assignment.description} />
           })}
           <Section type='Completed' count={assignments.filter(assignment => assignment.complete).length} hours={assignments.filter(assignment => assignment.complete).reduce((sum, assignment) => sum + assignment.estimate, 0)} />
           {assignments.filter(assignment => assignment.complete).map((assignment, index) => {
-            return <Assignment key={index} name={assignment.name} date={assignment.date} progress={assignment.progress} />
+            return <Assignment key={index} name={assignment.name} date={assignment.date} progress={assignment.progress} description={assignment.description} />
           })}
         </Box>
       </Container>
