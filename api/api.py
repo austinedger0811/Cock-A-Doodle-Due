@@ -30,6 +30,8 @@ def add_assignmnets():
     assignment_id = assignments.document().id
     assignment['timestamp'] = SERVER_TIMESTAMP
     assignment['id'] = assignment_id
+    assignment['progress'] = 0
+    assignment['complete'] = False
     assignments.document(assignment_id).set(assignment)
     return get_assignments_list()
 

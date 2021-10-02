@@ -33,19 +33,13 @@ const App = () => {
 
   const [assignments, setAssignments] = useState([])
 
-  const [activeCount, setActiveCount] = useState(0)
-
-  const [completeCount, setCompleteCount] = useState(0)
-
   const baseURL = 'http://localhost:5000/api/v1'
 
   useEffect(() => {
     axios.get(`${baseURL}/assignments`).then((response) => {
       setAssignments(response.data)
-      setActiveCount(response.data.filter(assignment => !assignment.complete).length)
-      setCompleteCount(response.data.filter(assignment => assignment.complete).length)
     })
-  }, [])
+  }, [assignments])
 
   return (
     <ThemeProvider theme={theme}>
@@ -57,13 +51,14 @@ const App = () => {
           </Toolbar>
         </AppBar>
         <Box mx={10}>
-          <Section type='Active' count={activeCount} hours={6} />
-          {assignments.map((assignment, index) => {
-            return (
-              <Assignment key={index} name={assignment.name} date={assignment.date} progress={assignment.progress} />
-            )
+          <Section type='Active' count={assignments.filter(assignment => !assignment.complete).length} hours={assignments.filter(assignment => !assignment.complete).reduce((sum, assignment) => sum + assignment.estimate, 0)} />
+          {assignments.filter(assignment => !assignment.complete).map((assignment, index) => {
+            return <Assignment key={index} name={assignment.name} date={assignment.date} progress={assignment.progress} />
           })}
-          <Section type='Completed' count={completeCount} hours={2} />
+          <Section type='Completed' count={assignments.filter(assignment => assignment.complete).length} hours={assignments.filter(assignment => assignment.complete).reduce((sum, assignment) => sum + assignment.estimate, 0)} />
+          {assignments.filter(assignment => assignment.complete).map((assignment, index) => {
+            return <Assignment key={index} name={assignment.name} date={assignment.date} progress={assignment.progress} />
+          })}
         </Box>
       </Container>
     </ThemeProvider>
