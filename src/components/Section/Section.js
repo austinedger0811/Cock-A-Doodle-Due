@@ -45,12 +45,15 @@ const Section = ({ type, count, hours }) => {
   };
 
   const createAssignment = () => {
-    axios.post(`${baseURL}/add-assignment`, {
+
+    const newAssignment = {
       name: name,
       description: description,
       estimate: estimate,
       date: date
-    })
+    }
+
+    axios.post(`${baseURL}/add-assignment`, newAssignment)
     .then(handleClose)
     .catch(error => console.log(error))
   }
@@ -92,6 +95,17 @@ const Section = ({ type, count, hours }) => {
                   variant="standard"
                   onChange={(event) => setDescription(event.target.value)}
                 />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DateTimePicker
+                    label="Due Date"
+                    value={date}
+                    onChange={(newValue) => {
+                      setDate(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+
+                </LocalizationProvider>
                 <Box mt={2}>
                   <Typography gutterBottom>Estimated Hours</Typography>
                   <Slider
@@ -104,16 +118,6 @@ const Section = ({ type, count, hours }) => {
                     onChange={(event) => setEstimate(event.target.value)}
                   />
                 </Box>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DateTimePicker
-                    label="Due Date"
-                    value={date}
-                    onChange={(newValue) => {
-                      setDate(newValue);
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
               </Stack>
             </DialogContent>
             <DialogActions>

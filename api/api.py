@@ -36,9 +36,10 @@ def add_assignmnets():
     return get_assignments_list()
 
 
-@app.route('/api/v1/update-assignment-progress/<id>', methods=['PUT'])
+@app.route('/api/v1/update-assignment/<id>', methods=['PUT'])
 def update_assignment(id):
-    pass
+    assignments.document(id).update({u'progress': request.json['progress']})
+    return get_assignments_list()
 
 
 @app.route('/api/v1/delete-assignment/<id>', methods=['DELETE'])
