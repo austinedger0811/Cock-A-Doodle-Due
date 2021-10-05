@@ -39,6 +39,8 @@ def add_assignmnets():
 @app.route('/api/v1/update-assignment/<id>', methods=['PUT'])
 def update_assignment(id):
     assignments.document(id).update({u'progress': request.json['progress']})
+    if request.json['progress'] == 100:
+        assignments.document(id).update({u'complete': True})
     return get_assignments_list()
 
 
