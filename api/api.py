@@ -60,7 +60,7 @@ def delete_assignment(id):
 
 def get_assignments_list():
     # TODO: add order_by() to assignments to order them properly
-    return jsonify([doc.to_dict() for doc in assignments.stream()])
+    return jsonify([doc.to_dict() for doc in assignments.order_by(u'date').stream()])
 
 
 def create_assignment(assignment):
@@ -83,8 +83,6 @@ Greater than 10: ahead
 between 10 and -10: ontime
 less than -10: behind
 '''
-
-# TODO: Priority needs to update every time the GET is called
 
 
 def calculate_piority(actual_progress, start_date_str, end_date_str):
