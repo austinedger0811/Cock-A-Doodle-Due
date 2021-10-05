@@ -31,7 +31,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const Assignment = ( {id, name, date, progress, description, estimate, timeCompleted, timeRemaining, priority, complete, onAssignmentChange} ) => {
+const Assignment = ( {id, name, date, timestamp, progress, description, estimate, timeCompleted, timeRemaining, complete, onAssignmentChange} ) => {
 
   const baseURL = 'http://localhost:5000/api/v1'
 
@@ -39,9 +39,26 @@ const Assignment = ( {id, name, date, progress, description, estimate, timeCompl
   const [update, setUpdate] = useState(false)
   const [currentProgress, setCurrentProgress] = useState(progress)
 
+  const handleSliderChange = (event, newValue) => {
+    setCurrentProgress(newValue)
+  }
+
   const afterRemove = (data) => {
     onAssignmentChange(data)
     handleExpandClick()
+  }
+
+  const afterUpdate = (data) => {
+    onAssignmentChange(data)
+    setUpdate(!update)
+    setExpanded(!expanded)
+  }
+
+  const handleProgressSave = () => {
+    const newProgress = { progress: currentProgress }
+    axios.put(`${baseURL}/update-assignment/${id}`, newProgress)
+        .then(response => afterUpdate(response.data))
+        .catch(error => console.log(error))
   }
 
   const removeAssignment = () => {
@@ -62,30 +79,26 @@ const Assignment = ( {id, name, date, progress, description, estimate, timeCompl
     setUpdate(!update)
   }
 
-  const handleSliderChange = (event, newValue) => {
-    setCurrentProgress(newValue)
-  }
+  const calculatePriority = () => {
 
-  const afterUpdate = (data) => {
-    onAssignmentChange(data)
-    setUpdate(!update)
-    setExpanded(!expanded)
-  }
-
-  const handleProgressSave = () => {
-    const newProgress = { progress: currentProgress }
-    axios.put(`${baseURL}/update-assignment/${id}`, newProgress)
-        .then(response => afterUpdate(response.data))
-        .catch(error => console.log(error))
-  }
-
-  const priorityTheme = () => {
     if (complete) {
       return 'ahead'
     }
-    if (priority > 5) {
+
+    var currentDate = moment()
+    var startDate = moment(timestamp)
+    var dueDate = moment(date) 
+
+    var totalHours = dueDate.diff(startDate, 'hours')
+    var passedHours = currentDate.diff(startDate, 'hours')
+
+    var expectedProgress = (passedHours / totalHours) * 100
+
+    var diff = progress - expectedProgress
+
+    if (diff > 10) {
       return 'ahead'
-    } else if (priority < -5){
+    } else if(diff < -10) {
       return 'behind'
     } else {
       return 'ontime'
@@ -96,14 +109,14 @@ const Assignment = ( {id, name, date, progress, description, estimate, timeCompl
     <Box mb={2}>
       <Card>
         <CardActionArea onClick={handleExpandClick} disabled={expanded}>
-          <LinearProgress variant="determinate" value={currentProgress} color={priorityTheme()} />
+          <LinearProgress variant="determinate" value={currentProgress} color={calculatePriority()} />
           <CardContent style={{display: 'flex', justifyContent: 'space-between'}}>
             <Box>
               <Typography variant="h6"> {name} </Typography>
               <Typography variant="caption"> {moment(date).format('ddd MMM Do, h:mm a')} </Typography>
             </Box>
             <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center'}}>
-              <CircularProgress variant="determinate" value={currentProgress} color={priorityTheme()} />
+              <CircularProgress variant="determinate" value={currentProgress} color={calculatePriority()} />
               <Box
                 sx={{
                   top: 0,
@@ -138,7 +151,7 @@ const Assignment = ( {id, name, date, progress, description, estimate, timeCompl
               </Box>
               <Box>
                 <Typography variant="body1">Progress</Typography>
-                <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={priorityTheme()} onChange={handleSliderChange}/>
+                <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={calculatePriority()} onChange={handleSliderChange}/>
               </Box>
             </Stack>
           </CardContent>

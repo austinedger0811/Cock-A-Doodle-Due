@@ -68,12 +68,12 @@ const App = () => {
                 id={assignment.id}
                 name={assignment.name}
                 date={assignment.date}
+                timestamp={assignment.timestamp}
                 progress={assignment.progress}
                 description={assignment.description}
                 estimate={assignment.estimate}
                 timeCompleted={assignment.time_completed}
                 timeRemaining={assignment.time_remaining}
-                priority={assignment.priority}
                 complete={assignment.complete}
                 onAssignmentChange={handleAssignmentChange}
               />
@@ -91,12 +91,12 @@ const App = () => {
                 id={assignment.id}
                 name={assignment.name}
                 date={assignment.date}
+                timestamp={assignment.timestamp}
                 progress={assignment.progress}
                 description={assignment.description}
                 estimate={assignment.estimate}
                 timeCompleted={assignment.time_completed}
                 timeRemaining={assignment.time_remaining}
-                priority={assignment.priority}
                 complete={assignment.complete}
                 onAssignmentChange={handleAssignmentChange}
               />

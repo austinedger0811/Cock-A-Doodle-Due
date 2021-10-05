@@ -78,7 +78,7 @@ const Section = ({ type, count, hours, onAssignmentChange }) => {
             <DialogTitle>New Assignment</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                Create a new assignment by adding the assignment name, a sort description, due date, and an estimate of how long it will take you to complete.
+                Create a new assignment by adding the assignment name, a short description, due date, and an estimate of how long it will take you to complete.
               </DialogContentText>
               <Stack spacing={3}>
                 <TextField
