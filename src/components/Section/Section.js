@@ -11,17 +11,17 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Button from '@mui/material/Button'
-import Stack from '@mui/material/Stack';
-import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack'
+import Slider from '@mui/material/Slider'
 import Typography from '@mui/material/Typography'
 
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DateTimePicker from '@mui/lab/DateTimePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import DateTimePicker from '@mui/lab/DateTimePicker'
 
 import AddIcon from '@mui/icons-material/Add'
 
-const Section = ({ type, count, hours }) => {
+const Section = ({ type, count, hours, onAssignmentChange }) => {
 
   const info = `${count} ${count > 1 ? "assignments" : "assignment"}, ${hours} ${hours > 1 ? "hours" : "hour"}`
   const baseURL = 'http://localhost:5000/api/v1'
@@ -44,6 +44,11 @@ const Section = ({ type, count, hours }) => {
     setDate(null)
   };
 
+  const afterCreate = (data) => {
+    onAssignmentChange(data)
+    handleClose()
+  }
+
   const createAssignment = () => {
 
     const newAssignment = {
@@ -54,7 +59,7 @@ const Section = ({ type, count, hours }) => {
     }
 
     axios.post(`${baseURL}/add-assignment`, newAssignment)
-    .then(handleClose)
+    .then(response => afterCreate(response.data))
     .catch(error => console.log(error))
   }
 

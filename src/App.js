@@ -25,6 +25,10 @@ const App = () => {
     }).catch(error => console.log(error))
   }, [])
 
+  const handleAssignmentChange = (data) => {
+    setAssignments(data)
+  }
+
   const getActiveCount = () => {
     return (assignments.filter(assignment => !assignment.complete).length)
   }
@@ -51,7 +55,12 @@ const App = () => {
           </Toolbar>
         </AppBar>
         <Box mx={10}>
-          <Section type='Active' count={getActiveCount()} hours={getActiveHours()} />
+          <Section
+            type='Active'
+            count={getActiveCount()}
+            hours={getActiveHours()}
+            onAssignmentChange={handleAssignmentChange}
+          />
           {assignments.filter(assignment => !assignment.complete).map((assignment, index) => {
             return (
               <Assignment
@@ -64,10 +73,15 @@ const App = () => {
                 estimate={assignment.estimate}
                 timeCompleted={assignment.time_completed}
                 timeRemaining={assignment.time_remaining}
+                onAssignmentChange={handleAssignmentChange}
               />
             )
           })}
-          <Section type='Completed' count={getCompletedCount()} hours={getCompletedHours()} />
+          <Section
+            type='Completed'
+            count={getCompletedCount()}
+            hours={getCompletedHours()}
+          />
           {assignments.filter(assignment => assignment.complete).map((assignment, index) => {
             return (
               <Assignment
@@ -80,6 +94,7 @@ const App = () => {
                 estimate={assignment.estimate}
                 timeCompleted={assignment.time_completed}
                 timeRemaining={assignment.time_remaining}
+                onAssignmentChange={handleAssignmentChange}
               />
             )
           })}

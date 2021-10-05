@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import moment from 'moment'
-import styled from '@mui/material/styles/styled';
+import styled from '@mui/material/styles/styled'
 
 
 import Box from '@mui/material/Box'
@@ -14,11 +14,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import LinearProgress from '@mui/material/LinearProgress'
 import Collapse from '@mui/material/Collapse'
 import Slider from '@mui/material/Slider'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
@@ -36,7 +31,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const Assignment = ( {id, name, date, progress, description, estimate, timeCompleted, timeRemaining} ) => {
+const Assignment = ( {id, name, date, progress, description, estimate, timeCompleted, timeRemaining, onAssignmentChange} ) => {
 
   const baseURL = 'http://localhost:5000/api/v1'
 
@@ -44,9 +39,14 @@ const Assignment = ( {id, name, date, progress, description, estimate, timeCompl
   const [update, setUpdate] = useState(false)
   const [currentProgress, setCurrentProgress] = useState(progress)
 
+  const afterRemove = (data) => {
+    onAssignmentChange(data)
+    handleExpandClick()
+  }
+
   const removeAssignment = () => {
     axios.delete(`${baseURL}/delete-assignment/${id}`)
-      .then(handleExpandClick)
+      .then(response => afterRemove(response.data))
       .catch(error => console.log(error))
   }
 
@@ -66,10 +66,16 @@ const Assignment = ( {id, name, date, progress, description, estimate, timeCompl
     setCurrentProgress(newValue)
   }
 
+  const afterUpdate = (data) => {
+    onAssignmentChange(data)
+    setUpdate(!update)
+    setExpanded(!expanded)
+  }
+
   const handleProgressSave = () => {
     const newProgress = { progress: currentProgress }
     axios.put(`${baseURL}/update-assignment/${id}`, newProgress)
-        .then(setUpdate(!update))
+        .then(response => afterUpdate(response.data))
         .catch(error => console.log(error))
   }
 

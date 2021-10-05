@@ -78,7 +78,13 @@ def create_assignment(assignment):
 
 '''
 Calculates if the user is behind on their assignment.
+Priority:
+Greater than 10: ahead
+between 10 and -10: ontime
+less than -10: behind
 '''
+
+# TODO: Priority needs to update every time the GET is called
 
 
 def calculate_piority(actual_progress, start_date_str, end_date_str):
