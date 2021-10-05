@@ -36,7 +36,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const Assignment = ( {id, name, date, progress, description, estimate} ) => {
+const Assignment = ( {id, name, date, progress, description, estimate, timeCompleted, timeRemaining} ) => {
 
   const baseURL = 'http://localhost:5000/api/v1'
 
@@ -114,8 +114,8 @@ const Assignment = ( {id, name, date, progress, description, estimate} ) => {
               <Box>
                 <Typography variant="body1">Time</Typography>
                 <Typography variant="body2">Estimate: {estimate} {estimate > 1 ? "hours" : "hour"}</Typography>
-                <Typography variant="body2">Completed: {estimate * (currentProgress / 100)} {estimate * (currentProgress / 100) > 1 ? "hours" : "hour"}</Typography>
-                <Typography variant="body2">Remaining: {(estimate - (estimate * (currentProgress / 100)))} {(estimate - (estimate * (currentProgress / 100))) > 1 ? "hours" : "hour"}</Typography>
+                <Typography variant="body2">Completed: {timeCompleted} {timeCompleted > 1 ? "hours" : "hour"}</Typography>
+                <Typography variant="body2">Remaining: {timeRemaining} {timeRemaining > 1 ? "hours" : "hour"}</Typography>
               </Box>
               <Box>
                 <Typography variant="body1">Progress</Typography>

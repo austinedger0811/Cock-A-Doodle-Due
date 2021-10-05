@@ -25,6 +25,22 @@ const App = () => {
     }).catch(error => console.log(error))
   }, [])
 
+  const getActiveCount = () => {
+    return (assignments.filter(assignment => !assignment.complete).length)
+  }
+
+  const getCompletedCount = () => {
+    return (assignments.filter(assignment => assignment.complete).length)
+  }
+
+  const getActiveHours = () => {
+    return Math.round(assignments.filter(assignment => !assignment.complete).reduce((sum, assignment) => sum + assignment.time_remaining, 0) * 10) / 10
+  }
+
+  const getCompletedHours = () => {
+    return Math.round(assignments.filter(assignment => assignment.complete).reduce((sum, assignment) => sum + assignment.estimate, 0) * 10) / 10
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -35,13 +51,37 @@ const App = () => {
           </Toolbar>
         </AppBar>
         <Box mx={10}>
-          <Section type='Active' count={assignments.filter(assignment => !assignment.complete).length} hours={assignments.filter(assignment => !assignment.complete).reduce((sum, assignment) => sum + assignment.estimate, 0)} />
+          <Section type='Active' count={getActiveCount()} hours={getActiveHours()} />
           {assignments.filter(assignment => !assignment.complete).map((assignment, index) => {
-            return <Assignment key={index} id={assignment.id} name={assignment.name} date={assignment.date} progress={assignment.progress} description={assignment.description} estimate={assignment.estimate}/>
+            return (
+              <Assignment
+                key={index}
+                id={assignment.id}
+                name={assignment.name}
+                date={assignment.date}
+                progress={assignment.progress}
+                description={assignment.description}
+                estimate={assignment.estimate}
+                timeCompleted={assignment.time_completed}
+                timeRemaining={assignment.time_remaining}
+              />
+            )
           })}
-          <Section type='Completed' count={assignments.filter(assignment => assignment.complete).length} hours={assignments.filter(assignment => assignment.complete).reduce((sum, assignment) => sum + assignment.estimate, 0)} />
+          <Section type='Completed' count={getCompletedCount()} hours={getCompletedHours()} />
           {assignments.filter(assignment => assignment.complete).map((assignment, index) => {
-            return <Assignment key={index} name={assignment.name} date={assignment.date} progress={assignment.progress} description={assignment.description} estimate={assignment.estimate}/>
+            return (
+              <Assignment
+                key={index}
+                id={assignment.id}
+                name={assignment.name}
+                date={assignment.date}
+                progress={assignment.progress}
+                description={assignment.description}
+                estimate={assignment.estimate}
+                timeCompleted={assignment.time_completed}
+                timeRemaining={assignment.time_remaining}
+              />
+            )
           })}
         </Box>
       </Container>

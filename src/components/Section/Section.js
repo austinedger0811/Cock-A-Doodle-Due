@@ -73,8 +73,7 @@ const Section = ({ type, count, hours }) => {
             <DialogTitle>New Assignment</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                To subscribe to this website, please enter your email address here. We
-                will send updates occasionally.
+                Create a new assignment by adding the assignment name, a sort description, due date, and an estimate of how long it will take you to complete.
               </DialogContentText>
               <Stack spacing={3}>
                 <TextField
