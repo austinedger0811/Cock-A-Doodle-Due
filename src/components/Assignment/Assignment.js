@@ -31,7 +31,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const Assignment = ( {id, name, date, progress, description, estimate, timeCompleted, timeRemaining, onAssignmentChange} ) => {
+const Assignment = ( {id, name, date, progress, description, estimate, timeCompleted, timeRemaining, priority, complete, onAssignmentChange} ) => {
 
   const baseURL = 'http://localhost:5000/api/v1'
 
@@ -79,18 +79,31 @@ const Assignment = ( {id, name, date, progress, description, estimate, timeCompl
         .catch(error => console.log(error))
   }
 
+  const priorityTheme = () => {
+    if (complete) {
+      return 'ahead'
+    }
+    if (priority > 5) {
+      return 'ahead'
+    } else if (priority < -5){
+      return 'behind'
+    } else {
+      return 'ontime'
+    }
+  }
+
   return (
     <Box mb={2}>
       <Card>
         <CardActionArea onClick={handleExpandClick} disabled={expanded}>
-          <LinearProgress variant="determinate" value={currentProgress} />
+          <LinearProgress variant="determinate" value={currentProgress} color={priorityTheme()} />
           <CardContent style={{display: 'flex', justifyContent: 'space-between'}}>
             <Box>
               <Typography variant="h6"> {name} </Typography>
               <Typography variant="caption"> {moment(date).format('ddd MMM Do, h:mm a')} </Typography>
             </Box>
             <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center'}}>
-              <CircularProgress variant="determinate" value={currentProgress}/>
+              <CircularProgress variant="determinate" value={currentProgress} color={priorityTheme()} />
               <Box
                 sx={{
                   top: 0,
@@ -125,7 +138,7 @@ const Assignment = ( {id, name, date, progress, description, estimate, timeCompl
               </Box>
               <Box>
                 <Typography variant="body1">Progress</Typography>
-                <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} onChange={handleSliderChange}/>
+                <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={priorityTheme()} onChange={handleSliderChange}/>
               </Box>
             </Stack>
           </CardContent>

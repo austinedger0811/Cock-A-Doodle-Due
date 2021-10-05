@@ -61,10 +61,10 @@ const App = () => {
             hours={getActiveHours()}
             onAssignmentChange={handleAssignmentChange}
           />
-          {assignments.filter(assignment => !assignment.complete).map((assignment, index) => {
+          {assignments.filter(assignment => !assignment.complete).map((assignment) => {
             return (
               <Assignment
-                key={index}
+                key={assignment.id}
                 id={assignment.id}
                 name={assignment.name}
                 date={assignment.date}
@@ -73,6 +73,8 @@ const App = () => {
                 estimate={assignment.estimate}
                 timeCompleted={assignment.time_completed}
                 timeRemaining={assignment.time_remaining}
+                priority={assignment.priority}
+                complete={assignment.complete}
                 onAssignmentChange={handleAssignmentChange}
               />
             )
@@ -82,10 +84,10 @@ const App = () => {
             count={getCompletedCount()}
             hours={getCompletedHours()}
           />
-          {assignments.filter(assignment => assignment.complete).map((assignment, index) => {
+          {assignments.filter(assignment => assignment.complete).map((assignment) => {
             return (
               <Assignment
-                key={index}
+                key={assignment.id}
                 id={assignment.id}
                 name={assignment.name}
                 date={assignment.date}
@@ -94,6 +96,8 @@ const App = () => {
                 estimate={assignment.estimate}
                 timeCompleted={assignment.time_completed}
                 timeRemaining={assignment.time_remaining}
+                priority={assignment.priority}
+                complete={assignment.complete}
                 onAssignmentChange={handleAssignmentChange}
               />
             )
