@@ -21,8 +21,9 @@ const Todos = () => {
 
   return (
     <Box mt={6}>
-      <Box mb={4}>
-        <Typography variant="h5">Todo's</Typography> 
+      <Box mb={2}>
+        <Typography variant="h5">To-Dos</Typography> 
+        <Typography variant="body2">{`${todos.length} left`}</Typography> 
       </Box>
       <Box>
         {todos.map((todo, key) => { return(<Todo key={key} value={todo.value} />)})}

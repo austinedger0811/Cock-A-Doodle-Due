@@ -25,7 +25,7 @@ const Todo = ( {value} ) => {
             disableRipple
           />
         </ListItemIcon>
-        <ListItemText primary={value} disablePadding /> 
+        <ListItemText primary={value} disablePadding style={{textDecoration: checked ? 'line-through' : 'none'}} /> 
       </ListItemButton>
     </ListItem>
   )
