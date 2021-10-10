@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, firestore
-from firebase_admin.firestore import SERVER_TIMESTAMP
 from datetime import datetime
 
 app = Flask(__name__)
@@ -13,11 +12,17 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 assignments = db.collection(u'assignments')
+todos = db.collection(u'todos')
 
 
 @app.route('/api/v1/assignments', methods=['GET'])
 def get_assignments():
     return get_assignments_list()
+
+
+@app.route('/api/v1/todos', methods=['GET'])
+def get_todos():
+    return get_todos_list()
 
 
 @app.route('/api/v1/assignment/<id>', methods=['GET'])
@@ -61,6 +66,10 @@ def delete_assignment(id):
 
 def get_assignments_list():
     return jsonify([doc.to_dict() for doc in assignments.order_by(u'date').stream()])
+
+
+def get_todos_list():
+    return jsonify([doc.to_dict() for doc in todos.order_by(u'timestamp').stream()])
 
 
 def create_assignment(assignment):

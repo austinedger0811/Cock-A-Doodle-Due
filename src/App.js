@@ -5,6 +5,7 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider'
 
 import Section from './components/Section/Section'
 import Assignment from './components/Assignment/Assignment'
+import Todos from './components/Todos/Todos'
 import theme from './assets/theme'
 
 import AppBar from '@mui/material/AppBar'
@@ -12,12 +13,13 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 
 const App = () => {
 
-  const [assignments, setAssignments] = useState([])
-
   const baseURL = 'http://localhost:5000/api/v1'
+
+  const [assignments, setAssignments] = useState([])
 
   useEffect(() => {
     axios.get(`${baseURL}/assignments`).then((response) => {
@@ -54,54 +56,61 @@ const App = () => {
             <Button color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
-        <Box mx={10}>
-          <Section
-            type='Active'
-            count={getActiveCount()}
-            hours={getActiveHours()}
-            onAssignmentChange={handleAssignmentChange}
-          />
-          {assignments.filter(assignment => !assignment.complete).map((assignment) => {
-            return (
-              <Assignment
-                key={assignment.id}
-                id={assignment.id}
-                name={assignment.name}
-                date={assignment.date}
-                timestamp={assignment.timestamp}
-                progress={assignment.progress}
-                description={assignment.description}
-                estimate={assignment.estimate}
-                timeCompleted={assignment.time_completed}
-                timeRemaining={assignment.time_remaining}
-                complete={assignment.complete}
+        <Box mx={4}>
+          <Grid container spacing={6}>
+            <Grid item xs={8}>
+              <Section
+                type='Active'
+                count={getActiveCount()}
+                hours={getActiveHours()}
                 onAssignmentChange={handleAssignmentChange}
               />
-            )
-          })}
-          <Section
-            type='Completed'
-            count={getCompletedCount()}
-            hours={getCompletedHours()}
-          />
-          {assignments.filter(assignment => assignment.complete).map((assignment) => {
-            return (
-              <Assignment
-                key={assignment.id}
-                id={assignment.id}
-                name={assignment.name}
-                date={assignment.date}
-                timestamp={assignment.timestamp}
-                progress={assignment.progress}
-                description={assignment.description}
-                estimate={assignment.estimate}
-                timeCompleted={assignment.time_completed}
-                timeRemaining={assignment.time_remaining}
-                complete={assignment.complete}
-                onAssignmentChange={handleAssignmentChange}
+              {assignments.filter(assignment => !assignment.complete).map((assignment) => {
+                return (
+                  <Assignment
+                    key={assignment.id}
+                    id={assignment.id}
+                    name={assignment.name}
+                    date={assignment.date}
+                    timestamp={assignment.timestamp}
+                    progress={assignment.progress}
+                    description={assignment.description}
+                    estimate={assignment.estimate}
+                    timeCompleted={assignment.time_completed}
+                    timeRemaining={assignment.time_remaining}
+                    complete={assignment.complete}
+                    onAssignmentChange={handleAssignmentChange}
+                  />
+                )
+              })}
+              <Section
+                type='Completed'
+                count={getCompletedCount()}
+                hours={getCompletedHours()}
               />
-            )
-          })}
+              {assignments.filter(assignment => assignment.complete).map((assignment) => {
+                return (
+                  <Assignment
+                    key={assignment.id}
+                    id={assignment.id}
+                    name={assignment.name}
+                    date={assignment.date}
+                    timestamp={assignment.timestamp}
+                    progress={assignment.progress}
+                    description={assignment.description}
+                    estimate={assignment.estimate}
+                    timeCompleted={assignment.time_completed}
+                    timeRemaining={assignment.time_remaining}
+                    complete={assignment.complete}
+                    onAssignmentChange={handleAssignmentChange}
+                  />
+                )
+              })}
+            </Grid>
+            <Grid item xs={4}>
+              <Todos/>
+            </Grid>
+          </Grid>
         </Box>
       </Container>
     </ThemeProvider>
