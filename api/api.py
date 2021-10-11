@@ -31,9 +31,15 @@ def get_assignment(id):
 
 
 @app.route('/api/v1/add-assignment', methods=['POST'])
-def add_assignmnets():
+def add_assignmnet():
     create_assignment(request.json)
     return get_assignments_list()
+
+
+@app.route('/api/v1/add-todo', methods=['POST'])
+def add_todo():
+    create_todo(request.json)
+    return get_todos_list()
 
 
 @app.route('/api/v1/update-assignment/<id>', methods=['PUT'])
@@ -64,12 +70,10 @@ def delete_assignment(id):
     return get_assignments_list()
 
 
-def get_assignments_list():
-    return jsonify([doc.to_dict() for doc in assignments.order_by(u'date').stream()])
-
-
-def get_todos_list():
-    return jsonify([doc.to_dict() for doc in todos.order_by(u'timestamp').stream()])
+@app.route('/api/v1/delete-todo/<id>', methods=['DELETE'])
+def delete_todo(id):
+    todos.document(id).delete()
+    return get_todos_list()
 
 
 def create_assignment(assignment):
@@ -81,3 +85,19 @@ def create_assignment(assignment):
     assignment['time_completed'] = 0
     assignment['time_remaining'] = assignment['estimate']
     assignments.document(assignment_id).set(assignment)
+
+
+def create_todo(todo):
+    todo_id = todos.document().id
+    todo['id'] = todo_id
+    todo['timestamp'] = datetime.now().isoformat()
+    todo['complete'] = False
+    todos.document(todo_id).set(todo)
+
+
+def get_assignments_list():
+    return jsonify([doc.to_dict() for doc in assignments.order_by(u'date').stream()])
+
+
+def get_todos_list():
+    return jsonify([doc.to_dict() for doc in todos.order_by(u'timestamp').stream()])

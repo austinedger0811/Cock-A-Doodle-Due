@@ -1,23 +1,28 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemButton from '@mui/material/ListItemButton'
 import Checkbox from '@mui/material/Checkbox'
-import Typography from '@mui/material/Typography'
 
 
-const Todo = ( {value} ) => {
+const Todo = ( {id, value, onTodoChange} ) => {
+
+  const baseURL = 'http://localhost:5000/api/v1'
 
   const [checked, setChecked] = useState(false)
 
-  const handleToggle = () => {
+  const handleDelete = () => {
     setChecked(!checked)
+    axios.delete(`${baseURL}/delete-todo/${id}`)
+      .then(response => onTodoChange(response.data))
+      .catch(error => console.log(error))
   }
   return (
     <ListItem disablePadding>
-      <ListItemButton role={undefined} onClick={handleToggle} dense>
+      <ListItemButton role={undefined} onClick={handleDelete} dense>
         <ListItemIcon>
           <Checkbox
             edge="start"
