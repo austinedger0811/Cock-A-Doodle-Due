@@ -53,12 +53,18 @@ def update_assignment(id):
     time_completed = round((estimate * (progress / 100)), 1)
     time_remaining = round((estimate - time_completed), 1)
     complete = True if progress == 100 else False
-
+    data = assignment_dict['data']
+    due_date = datetime.fromisoformat(assignment_dict['timestamp'])
+    current_date = datetime.now()
+    days_object = current_date - due_date
+    days = round(days_object.total_seconds() / 86400, 2)
+    data.append({'days': days, 'progress': progress})
     assignment.update({
         u'progress': progress,
         u'time_completed': time_completed,
         u'time_remaining': time_remaining,
         u'complete': complete,
+        u'data': data
     })
 
     return get_assignments_list()
@@ -77,13 +83,17 @@ def delete_todo(id):
 
 
 def create_assignment(assignment):
+    now = datetime.now()
+    total_days = (datetime.fromisoformat(assignment['date'][0:-1]) - now).days
     assignment_id = assignments.document().id
     assignment['id'] = assignment_id
-    assignment['timestamp'] = datetime.now().isoformat()
+    assignment['timestamp'] = now.isoformat()
     assignment['complete'] = False
     assignment['progress'] = 0
     assignment['time_completed'] = 0
     assignment['time_remaining'] = assignment['estimate']
+    assignment['total_days'] = total_days
+    assignment['data'] = [{'days': 0, 'progress': 0}]
     assignments.document(assignment_id).set(assignment)
 
 

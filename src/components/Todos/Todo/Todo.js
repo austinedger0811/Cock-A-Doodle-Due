@@ -10,13 +10,11 @@ import Checkbox from '@mui/material/Checkbox'
 
 const Todo = ( {id, value, onTodoChange} ) => {
 
-  const baseURL = 'http://localhost:5000/api/v1'
-
   const [checked, setChecked] = useState(false)
 
   const handleDelete = () => {
     setChecked(!checked)
-    axios.delete(`${baseURL}/delete-todo/${id}`)
+    axios.delete(`/delete-todo/${id}`)
       .then(response => onTodoChange(response.data))
       .catch(error => console.log(error))
   }

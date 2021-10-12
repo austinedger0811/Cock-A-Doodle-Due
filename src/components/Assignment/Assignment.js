@@ -32,9 +32,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const Assignment = ( {id, name, date, timestamp, progress, description, estimate, timeCompleted, timeRemaining, complete, onAssignmentChange} ) => {
-
-  const baseURL = 'http://localhost:5000/api/v1'
+const Assignment = ( {id, name, date, timestamp, progress, description, data, estimate, timeCompleted, timeRemaining, complete, totalDays, onAssignmentChange} ) => {
 
   const [expanded, setExpanded] = useState(false)
   const [update, setUpdate] = useState(false)
@@ -57,13 +55,13 @@ const Assignment = ( {id, name, date, timestamp, progress, description, estimate
 
   const handleProgressSave = () => {
     const newProgress = { progress: currentProgress }
-    axios.put(`${baseURL}/update-assignment/${id}`, newProgress)
+    axios.put(`/update-assignment/${id}`, newProgress)
         .then(response => afterUpdate(response.data))
         .catch(error => console.log(error))
   }
 
   const removeAssignment = () => {
-    axios.delete(`${baseURL}/delete-assignment/${id}`)
+    axios.delete(`/delete-assignment/${id}`)
       .then(response => afterRemove(response.data))
       .catch(error => console.log(error))
   }
@@ -150,7 +148,7 @@ const Assignment = ( {id, name, date, timestamp, progress, description, estimate
                 <Typography variant="body2">Completed: {timeCompleted} {timeCompleted > 1 ? "hours" : "hour"}</Typography>
                 <Typography variant="body2">Remaining: {timeRemaining} {timeRemaining > 1 ? "hours" : "hour"}</Typography>
               </Box>
-              <Graph />
+              <Graph data={data} totalDays={totalDays} />
               <Box>
                 <Typography variant="body1">Progress</Typography>
                 <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={calculatePriority()} onChange={handleSliderChange}/>

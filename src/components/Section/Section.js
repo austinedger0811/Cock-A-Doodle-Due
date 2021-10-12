@@ -24,7 +24,6 @@ import AddIcon from '@mui/icons-material/Add'
 const Section = ({ type, count, hours, onAssignmentChange }) => {
 
   const info = `${count} ${count > 1 ? "assignments" : "assignment"}, ${hours} ${hours > 1 ? "hours" : "hour"}`
-  const baseURL = 'http://localhost:5000/api/v1'
 
   const [open, setOpen] = useState(false)
   const [name, setName] = useState(null)
@@ -58,7 +57,7 @@ const Section = ({ type, count, hours, onAssignmentChange }) => {
       date: date
     }
 
-    axios.post(`${baseURL}/add-assignment`, newAssignment)
+    axios.post('/add-assignment', newAssignment)
     .then(response => afterCreate(response.data))
     .catch(error => console.log(error))
   }

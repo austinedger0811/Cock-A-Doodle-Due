@@ -10,12 +10,11 @@ import Typography from '@mui/material/Typography'
 
 const Todos = () => {
 
-  const baseURL = 'http://localhost:5000/api/v1'
 
   const [todos, setTodos] = useState([])
 
   useEffect(() => {
-    axios.get(`${baseURL}/todos`).then((response) => {
+    axios.get('/todos').then((response) => {
       setTodos(response.data)
     }).catch(error => console.log(error))
   }, [])

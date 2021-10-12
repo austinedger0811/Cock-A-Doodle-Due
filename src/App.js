@@ -12,14 +12,15 @@ import theme from './assets/theme'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 
+axios.defaults.baseURL = 'http://localhost:5000/api/v1'
+
 const App = () => {
 
-  const baseURL = 'http://localhost:5000/api/v1'
 
   const [assignments, setAssignments] = useState([])
 
   useEffect(() => {
-    axios.get(`${baseURL}/assignments`).then((response) => {
+    axios.get('/assignments').then((response) => {
       setAssignments(response.data)
     }).catch(error => console.log(error))
   }, [])
@@ -66,11 +67,13 @@ const App = () => {
                   date={assignment.date}
                   timestamp={assignment.timestamp}
                   progress={assignment.progress}
+                  data={assignment.data}
                   description={assignment.description}
                   estimate={assignment.estimate}
                   timeCompleted={assignment.time_completed}
                   timeRemaining={assignment.time_remaining}
                   complete={assignment.complete}
+                  totalDays={assignment.total_days}
                   onAssignmentChange={handleAssignmentChange}
                 />
               )

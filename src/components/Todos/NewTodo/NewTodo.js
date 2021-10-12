@@ -9,8 +9,6 @@ import InputBase from '@mui/material/InputBase'
 
 const NewTodo = ({ onTodoChange }) => {
 
-  const baseURL = 'http://localhost:5000/api/v1'
-
   const [value, setValue] = useState('')
 
   const handleValueChange = (data) => {
@@ -26,7 +24,7 @@ const NewTodo = ({ onTodoChange }) => {
     event.preventDefault();
     if (value !== '') {
       const newTodo = { value: value }
-      axios.post(`${baseURL}/add-todo`, newTodo)
+      axios.post('/add-todo', newTodo)
       .then(response => afterCreate(response.data))
       .catch(error => console.log(error))
     }
