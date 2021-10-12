@@ -91,7 +91,6 @@ def create_todo(todo):
     todo_id = todos.document().id
     todo['id'] = todo_id
     todo['timestamp'] = datetime.now().isoformat()
-    todo['complete'] = False
     todos.document(todo_id).set(todo)
 
 

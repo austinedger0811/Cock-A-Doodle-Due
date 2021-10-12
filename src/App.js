@@ -49,7 +49,7 @@ const App = () => {
       <CssBaseline />
       <NavBar />
       <Box mx={4}>
-        <Grid container spacing={6}>
+        <Grid container spacing={4}>
           <Grid item xs={8}>
             <Section
               type='Active'

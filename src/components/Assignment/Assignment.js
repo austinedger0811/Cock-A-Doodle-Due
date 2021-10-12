@@ -3,6 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import styled from '@mui/material/styles/styled'
 
+import Graph from './Graph/Graph'
 
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -138,7 +139,7 @@ const Assignment = ( {id, name, date, timestamp, progress, description, estimate
         </CardActionArea>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Stack spacing={3}>
+            <Stack spacing={2}>
               <Box>
                 <Typography variant="body1">Description</Typography>
                 <Typography variant="body2">{description}</Typography>
@@ -149,6 +150,7 @@ const Assignment = ( {id, name, date, timestamp, progress, description, estimate
                 <Typography variant="body2">Completed: {timeCompleted} {timeCompleted > 1 ? "hours" : "hour"}</Typography>
                 <Typography variant="body2">Remaining: {timeRemaining} {timeRemaining > 1 ? "hours" : "hour"}</Typography>
               </Box>
+              <Graph />
               <Box>
                 <Typography variant="body1">Progress</Typography>
                 <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={calculatePriority()} onChange={handleSliderChange}/>
