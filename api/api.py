@@ -76,6 +76,11 @@ def delete_assignment(id):
     return get_assignments_list()
 
 
+@app.route('/api/v1/delete-assignments', methods=['DELETE'])
+def delete_assignments():
+    pass
+
+
 @app.route('/api/v1/delete-todo/<id>', methods=['DELETE'])
 def delete_todo(id):
     todos.document(id).delete()

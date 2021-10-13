@@ -9,6 +9,7 @@ import Todos from '../Todos/Todos'
 import theme from '../../assets/theme/theme'
 
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
 
 axios.defaults.baseURL = 'http://localhost:5000/api/v1'
 
@@ -18,14 +19,16 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <NavBar />
-      <Grid container spacing={4} mx={4}>
-        <Grid item xs={8}>
-          <Assignments /> 
+      <Box mx={4}>
+        <Grid container spacing={4}>
+          <Grid item xs={8}>
+            <Assignments /> 
+          </Grid>
+          <Grid item xs={4}>
+            <Todos />
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <Todos />
-        </Grid>
-      </Grid>
+      </Box>
     </ThemeProvider>
   )
 }

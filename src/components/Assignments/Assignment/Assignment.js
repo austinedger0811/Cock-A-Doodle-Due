@@ -52,7 +52,6 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
   const afterUpdate = (newData) => {
     onAssignmentChange(newData)
     setUpdate(!update)
-    setExpanded(!expanded)
   }
 
   const handleProgressSave = () => {
@@ -152,7 +151,6 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
               </Box>
               <Graph data={data} totalDays={total_days} />
               <Box>
-                <Typography variant="body1">Progress</Typography>
                 <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={calculatePriority()} onChange={handleSliderChange}/>
               </Box>
             </Stack>
