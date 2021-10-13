@@ -34,7 +34,7 @@ const ExpandMore = styled((props) => {
 
 const Assignment = ({ assignment, onAssignmentChange }) => {
 
-  const { id, name, date, timestamp, progress, description, data, estimate, timeCompleted, timeRemaining, complete, totalDays } = assignment
+  const { id, name, date, timestamp, progress, description, data, estimate, time_completed, time_remaining, complete, total_days } = assignment
 
   const [expanded, setExpanded] = useState(false)
   const [update, setUpdate] = useState(false)
@@ -44,13 +44,13 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
     setCurrentProgress(newValue)
   }
 
-  const afterRemove = (data) => {
-    onAssignmentChange(data)
+  const afterRemove = (newData) => {
+    onAssignmentChange(newData)
     handleExpandClick()
   }
 
-  const afterUpdate = (data) => {
-    onAssignmentChange(data)
+  const afterUpdate = (newData) => {
+    onAssignmentChange(newData)
     setUpdate(!update)
     setExpanded(!expanded)
   }
@@ -147,10 +147,10 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
               <Box>
                 <Typography variant="body1">Time</Typography>
                 <Typography variant="body2">Estimate: {estimate} {estimate > 1 ? "hours" : "hour"}</Typography>
-                <Typography variant="body2">Completed: {timeCompleted} {timeCompleted > 1 ? "hours" : "hour"}</Typography>
-                <Typography variant="body2">Remaining: {timeRemaining} {timeRemaining > 1 ? "hours" : "hour"}</Typography>
+                <Typography variant="body2">Completed: {time_completed} {time_completed > 1 ? "hours" : "hour"}</Typography>
+                <Typography variant="body2">Remaining: {time_remaining} {time_remaining > 1 ? "hours" : "hour"}</Typography>
               </Box>
-              <Graph data={data} totalDays={totalDays} />
+              <Graph data={data} totalDays={total_days} />
               <Box>
                 <Typography variant="body1">Progress</Typography>
                 <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={calculatePriority()} onChange={handleSliderChange}/>

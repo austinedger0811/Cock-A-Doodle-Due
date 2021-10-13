@@ -1,7 +1,7 @@
 import React from 'react'
 
 import ActiveHeader from './ActiveHeader/ActiveHeader'
-import Assignment from '../../Assignment/Assignment'
+import Assignment from '../Assignment/Assignment'
 
 import Box from '@mui/material/Box'
 
