@@ -3,10 +3,10 @@ import axios from 'axios'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import CssBaseline from "@mui/material/CssBaseline"
 
-import NavBar from './components/NavBar/NavBar'
-import Assignments from './components/Assignments/Assignments'
-import Todos from './components/Todos/Todos'
-import theme from './assets/theme/theme'
+import NavBar from '../NavBar/NavBar'
+import Assignments from '../Assignments/Assignments'
+import Todos from '../Todos/Todos'
+import theme from '../../assets/theme/theme'
 
 import Grid from '@mui/material/Grid'
 
