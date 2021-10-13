@@ -7,7 +7,7 @@ import NavBar from './components/NavBar/NavBar'
 import Section from './components/Section/Section'
 import Assignment from './components/Assignment/Assignment'
 import Todos from './components/Todos/Todos'
-import theme from './assets/theme'
+import theme from './assets/theme/theme'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -15,7 +15,6 @@ import Grid from '@mui/material/Grid'
 axios.defaults.baseURL = 'http://localhost:5000/api/v1'
 
 const App = () => {
-
 
   const [assignments, setAssignments] = useState([])
 
