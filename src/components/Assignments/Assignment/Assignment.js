@@ -3,7 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import styled from '@mui/material/styles/styled'
 
-import Graph from './Graph/Graph'
+import Graph from './Graph'
 
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -48,7 +48,7 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
   const [update, setUpdate] = useState(false)
   const [currentProgress, setCurrentProgress] = useState(progress)
 
-  const handleSliderChange = (newValue) => {
+  const handleSliderChange = (event, newValue) => {
     setCurrentProgress(newValue)
   }
 

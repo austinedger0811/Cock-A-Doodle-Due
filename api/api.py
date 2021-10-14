@@ -12,7 +12,7 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 assignments = db.collection(u'assignments')
-todos = db.collection(u'todos')
+reminders = db.collection(u'reminders')
 
 
 @app.route('/api/v1/assignments', methods=['GET'])
@@ -20,9 +20,9 @@ def get_assignments():
     return get_assignments_list()
 
 
-@app.route('/api/v1/todos', methods=['GET'])
-def get_todos():
-    return get_todos_list()
+@app.route('/api/v1/reminders', methods=['GET'])
+def get_reminders():
+    return get_reminders_list()
 
 
 @app.route('/api/v1/assignment/<id>', methods=['GET'])
@@ -36,10 +36,10 @@ def add_assignmnet():
     return get_assignments_list()
 
 
-@app.route('/api/v1/add-todo', methods=['POST'])
-def add_todo():
-    create_todo(request.json)
-    return get_todos_list()
+@app.route('/api/v1/add-reminder', methods=['POST'])
+def add_reminder():
+    create_reminder(request.json)
+    return get_reminders_list()
 
 
 @app.route('/api/v1/update-assignment/<id>', methods=['PUT'])
@@ -50,6 +50,7 @@ def update_assignment(id):
 
     estimate = assignment_dict['estimate']
     progress = request.json['progress']
+    print(progress)
     time_completed = round((estimate * (progress / 100)), 1)
     time_remaining = round((estimate - time_completed), 1)
     complete = True if progress == 100 else False
@@ -81,10 +82,10 @@ def delete_assignments():
     pass
 
 
-@app.route('/api/v1/delete-todo/<id>', methods=['DELETE'])
-def delete_todo(id):
-    todos.document(id).delete()
-    return get_todos_list()
+@app.route('/api/v1/delete-reminder/<id>', methods=['DELETE'])
+def delete_reminder(id):
+    reminders.document(id).delete()
+    return get_reminders_list()
 
 
 def create_assignment(assignment):
@@ -102,16 +103,16 @@ def create_assignment(assignment):
     assignments.document(assignment_id).set(assignment)
 
 
-def create_todo(todo):
-    todo_id = todos.document().id
-    todo['id'] = todo_id
-    todo['timestamp'] = datetime.now().isoformat()
-    todos.document(todo_id).set(todo)
+def create_reminder(reminder):
+    reminder_id = reminders.document().id
+    reminder['id'] = reminder_id
+    reminder['timestamp'] = datetime.now().isoformat()
+    reminders.document(reminder_id).set(reminder)
 
 
 def get_assignments_list():
     return jsonify([doc.to_dict() for doc in assignments.order_by(u'date').stream()])
 
 
-def get_todos_list():
-    return jsonify([doc.to_dict() for doc in todos.order_by(u'timestamp').stream()])
+def get_reminders_list():
+    return jsonify([doc.to_dict() for doc in reminders.order_by(u'timestamp').stream()])

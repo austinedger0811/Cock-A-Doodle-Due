@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox'
 import Box from '@mui/material/Box'
 import InputBase from '@mui/material/InputBase'
 
-const NewReminder = ({ onTodoChange }) => {
+const NewReminder = ({ onReminderChange }) => {
 
   const [value, setValue] = useState('')
 
@@ -16,15 +16,15 @@ const NewReminder = ({ onTodoChange }) => {
   }
 
   const afterCreate = (data) => {
-    onTodoChange(data)
+    onReminderChange(data)
     setValue('')
   }
 
-  const createTodo = (event) => {
+  const createReminder = (event) => {
     event.preventDefault();
     if (value !== '') {
       const newTodo = { value: value }
-      axios.post('/add-todo', newTodo)
+      axios.post('/add-reminder', newTodo)
       .then(response => afterCreate(response.data))
       .catch(error => console.log(error))
     }
@@ -36,8 +36,8 @@ const NewReminder = ({ onTodoChange }) => {
         <ListItemIcon>
           <Checkbox edge="start" checked={false} disableRipple />
         </ListItemIcon>
-        <form onSubmit={event => createTodo(event)}>
-          <InputBase placeholder="New todo" value={value} onChange={(event) => handleValueChange(event.target.value)}/>
+        <form onSubmit={event => createReminder(event)}>
+          <InputBase placeholder="New Reminder" value={value} onChange={(event) => handleValueChange(event.target.value)}/>
         </form>
       </Box>
     </ListItem>

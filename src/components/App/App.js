@@ -3,10 +3,10 @@ import axios from 'axios'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import CssBaseline from "@mui/material/CssBaseline"
 
-import NavBar from '../NavBar/NavBar'
-import Assignments from '../Assignments/Assignments'
-import Reminders from '../Reminders/Reminders'
-import theme from '../../assets/theme/theme'
+import NavBar from '../NavBar'
+import Assignments from '../Assignments'
+import Reminders from '../Reminders'
+import theme from '../../assets/theme'
 
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'

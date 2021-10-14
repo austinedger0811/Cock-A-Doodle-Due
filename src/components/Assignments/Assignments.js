@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-import ActiveAssignments from './ActiveAssignments/ActiveAssignments'
-import CompletedAssignments from './CompletedAssignments/CompletedAssignments'
+import ActiveAssignments from './ActiveAssignments'
+import CompletedAssignments from './CompletedAssignments'
 
 
 import Box from '@mui/material/Box'

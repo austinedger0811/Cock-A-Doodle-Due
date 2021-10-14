@@ -8,14 +8,14 @@ import ListItemButton from '@mui/material/ListItemButton'
 import Checkbox from '@mui/material/Checkbox'
 
 
-const Reminder = ( {id, value, onTodoChange} ) => {
+const Reminder = ( {id, value, onReminderChange} ) => {
 
   const [checked, setChecked] = useState(false)
 
   const handleDelete = () => {
     setChecked(!checked)
-    axios.delete(`/delete-todo/${id}`)
-      .then(response => onTodoChange(response.data))
+    axios.delete(`/delete-reminder/${id}`)
+      .then(response => onReminderChange(response.data))
       .catch(error => console.log(error))
   }
   return (
