@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
-import Todo from './Todo/Todo'
-import NewTodo from './NewTodo/NewTodo'
+import Reminder from './Reminder/Reminder'
+import NewReminder from './NewReminder/NewReminder'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
 
-const Todos = () => {
+const Reminders = () => {
 
 
   const [todos, setTodos] = useState([])
@@ -30,11 +30,11 @@ const Todos = () => {
         <Typography variant="body2">{`${todos.length} left`}</Typography> 
       </Box>
       <Box>
-        {todos.map((todo) => { return(<Todo key={todo.id} id={todo.id} value={todo.value} onTodoChange={handleTodoChange} />)})}
-        <NewTodo onTodoChange={handleTodoChange} />
+        {todos.map((todo) => { return(<Reminder key={todo.id} id={todo.id} value={todo.value} onTodoChange={handleTodoChange} />)})}
+        <NewReminder onTodoChange={handleTodoChange} />
       </Box>
     </Box>
   )
 }
 
-export default Todos
+export default Reminders 

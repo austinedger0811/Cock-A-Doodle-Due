@@ -32,15 +32,23 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
+const calculateCurrentDate = (timestamp) => {
+  var currentDate = moment()
+  var hours = currentDate.diff(timestamp, 'hours') 
+  return (hours / 24).toFixed(2)
+}
+
 const Assignment = ({ assignment, onAssignmentChange }) => {
 
   const { id, name, date, timestamp, progress, description, data, estimate, time_completed, time_remaining, complete, total_days } = assignment
+
+  const currentDays = calculateCurrentDate(timestamp)
 
   const [expanded, setExpanded] = useState(false)
   const [update, setUpdate] = useState(false)
   const [currentProgress, setCurrentProgress] = useState(progress)
 
-  const handleSliderChange = (event, newValue) => {
+  const handleSliderChange = (newValue) => {
     setCurrentProgress(newValue)
   }
 
@@ -149,7 +157,12 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
                 <Typography variant="body2">Completed: {time_completed} {time_completed > 1 ? "hours" : "hour"}</Typography>
                 <Typography variant="body2">Remaining: {time_remaining} {time_remaining > 1 ? "hours" : "hour"}</Typography>
               </Box>
-              <Graph data={data} totalDays={total_days} />
+              <Graph
+                data={data}
+                currentDays={currentDays}
+                progress={progress}
+                totalDays={total_days}
+              />
               <Box>
                 <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={calculatePriority()} onChange={handleSliderChange}/>
               </Box>

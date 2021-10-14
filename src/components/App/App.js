@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline"
 
 import NavBar from '../NavBar/NavBar'
 import Assignments from '../Assignments/Assignments'
-import Todos from '../Todos/Todos'
+import Reminders from '../Reminders/Reminders'
 import theme from '../../assets/theme/theme'
 
 import Grid from '@mui/material/Grid'
@@ -25,7 +25,7 @@ const App = () => {
             <Assignments /> 
           </Grid>
           <Grid item xs={4}>
-            <Todos />
+            <Reminders />
           </Grid>
         </Grid>
       </Box>

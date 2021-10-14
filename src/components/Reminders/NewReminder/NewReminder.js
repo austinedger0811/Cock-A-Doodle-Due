@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox'
 import Box from '@mui/material/Box'
 import InputBase from '@mui/material/InputBase'
 
-const NewTodo = ({ onTodoChange }) => {
+const NewReminder = ({ onTodoChange }) => {
 
   const [value, setValue] = useState('')
 
@@ -44,4 +44,4 @@ const NewTodo = ({ onTodoChange }) => {
   )
 }
 
-export default NewTodo
+export default NewReminder 

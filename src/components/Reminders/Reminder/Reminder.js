@@ -8,7 +8,7 @@ import ListItemButton from '@mui/material/ListItemButton'
 import Checkbox from '@mui/material/Checkbox'
 
 
-const Todo = ( {id, value, onTodoChange} ) => {
+const Reminder = ( {id, value, onTodoChange} ) => {
 
   const [checked, setChecked] = useState(false)
 
@@ -34,4 +34,4 @@ const Todo = ( {id, value, onTodoChange} ) => {
   )
 }
 
-export default Todo
+export default Reminder 
