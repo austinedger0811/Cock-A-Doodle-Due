@@ -3,7 +3,8 @@ import axios from 'axios'
 import moment from 'moment'
 import styled from '@mui/material/styles/styled'
 
-import Graph from './Graph'
+import ProgressChart from './ProgressChart'
+import TimeChart from './TimeChart'
 
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -151,18 +152,25 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
         </CardActionArea>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Stack spacing={2}>
-              <Box>
-                <Typography variant="subtitle1">Description</Typography>
-                <Typography variant="body2" color="textSecondary">{description}</Typography>
+            <Stack spacing={6}>
+              <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'start'}}>
+                <Box>
+                  <Typography variant="subtitle1">Description</Typography>
+                  <Typography variant="body2" color="textSecondary">{description}</Typography>
+                </Box>
+                <TimeChart
+                  estimatedTime={estimate}
+                  timeCompleted={time_completed}
+                  timeRemaining={time_remaining}
+                />
               </Box>
-              <Box>
+              {/* <Box>
                 <Typography variant="subtitle1">Time</Typography>
                 <Typography variant="body2">Estimate: {estimate} {estimate > 1 ? "hours" : "hour"}</Typography>
                 <Typography variant="body2">Completed: {time_completed} {time_completed > 1 ? "hours" : "hour"}</Typography>
                 <Typography variant="body2">Remaining: {time_remaining} {time_remaining > 1 ? "hours" : "hour"}</Typography>
-              </Box>
-              <Graph
+              </Box> */}
+              <ProgressChart
                 data={data}
                 currentDays={currentDays}
                 progress={progress}
