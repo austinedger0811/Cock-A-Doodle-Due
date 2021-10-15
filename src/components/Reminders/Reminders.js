@@ -27,7 +27,7 @@ const Reminders = () => {
     <Box mt={6}>
       <Box mb={2}>
         <Typography variant="h5">Reminders</Typography> 
-        <Typography variant="body2">{`${reminders.length} remaining`}</Typography> 
+        <Typography variant="subtitle2" color="textSecondary">{`${reminders.length} remaining`}</Typography> 
       </Box>
       <Box>
         {reminders.map((todo) => { return(<Reminder key={todo.id} id={todo.id} value={todo.value} onReminderChange={handleReminderChange} />)})}

@@ -24,7 +24,7 @@ const CompletedHeader = ({ assignments, onAssignmentChange }) => {
     <Box mt={6} mb={2} display="flex" justifyContent="space-between">
       <Box>
         <Typography variant='h5'>Completed</Typography> 
-        <Typography variant='body2'>{`${count} ${count > 1 ? "assignments" : "assignment"}, ${hours} ${hours > 1 ? "hours" : "hour"}`}</Typography>
+        <Typography variant='subtitle2' color="textSecondary">{`${count} ${count > 1 ? "assignments" : "assignment"}, ${hours} ${hours > 1 ? "hours" : "hour"}`}</Typography>
       </Box>
       <Box mt={1}>
         <Button variant="outlined" onClick={handleClearAll}>Clear All</Button>

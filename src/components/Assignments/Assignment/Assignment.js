@@ -120,8 +120,13 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
           <LinearProgress variant="determinate" value={currentProgress} color={calculatePriority()} />
           <CardContent style={{display: 'flex', justifyContent: 'space-between'}}>
             <Box>
-              <Typography variant="h6"> {name} </Typography>
-              <Typography variant="caption"> {moment(date).format('ddd MMM Do, h:mm a')} </Typography>
+              <Typography variant="h6">{name}</Typography>
+              <Typography
+                variant="caption"
+                color={total_days - currentDays < 1 ? "behind.main" : "textSecondary"}
+              >
+                {moment(date).format('ddd MMM Do, h:mm a')}
+              </Typography>
             </Box>
             <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center'}}>
               <CircularProgress variant="determinate" value={currentProgress} color={calculatePriority()} />
@@ -148,11 +153,11 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
           <CardContent>
             <Stack spacing={2}>
               <Box>
-                <Typography variant="body1">Description</Typography>
-                <Typography variant="body2">{description}</Typography>
+                <Typography variant="subtitle1">Description</Typography>
+                <Typography variant="body2" color="textSecondary">{description}</Typography>
               </Box>
               <Box>
-                <Typography variant="body1">Time</Typography>
+                <Typography variant="subtitle1">Time</Typography>
                 <Typography variant="body2">Estimate: {estimate} {estimate > 1 ? "hours" : "hour"}</Typography>
                 <Typography variant="body2">Completed: {time_completed} {time_completed > 1 ? "hours" : "hour"}</Typography>
                 <Typography variant="body2">Remaining: {time_remaining} {time_remaining > 1 ? "hours" : "hour"}</Typography>
