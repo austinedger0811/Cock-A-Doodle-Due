@@ -124,7 +124,7 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
               <Typography variant="h6">{name}</Typography>
               <Typography
                 variant="caption"
-                color={total_days - currentDays < 1 ? "behind.main" : "textSecondary"}
+                color={(total_days - currentDays < 1) && !complete ? "behind.main" : "textSecondary"}
               >
                 {moment(date).format('ddd MMM Do, h:mm a')}
               </Typography>
@@ -158,27 +158,19 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
                   <Typography variant="subtitle1">Description</Typography>
                   <Typography variant="body2" color="textSecondary">{description}</Typography>
                 </Box>
-                <TimeChart
+                {/* <TimeChart
                   estimatedTime={estimate}
                   timeCompleted={time_completed}
                   timeRemaining={time_remaining}
-                />
+                /> */}
               </Box>
-              {/* <Box>
-                <Typography variant="subtitle1">Time</Typography>
-                <Typography variant="body2">Estimate: {estimate} {estimate > 1 ? "hours" : "hour"}</Typography>
-                <Typography variant="body2">Completed: {time_completed} {time_completed > 1 ? "hours" : "hour"}</Typography>
-                <Typography variant="body2">Remaining: {time_remaining} {time_remaining > 1 ? "hours" : "hour"}</Typography>
-              </Box> */}
               <ProgressChart
                 data={data}
                 currentDays={currentDays}
                 progress={progress}
                 totalDays={total_days}
               />
-              <Box>
-                <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={calculatePriority()} onChange={handleSliderChange}/>
-              </Box>
+              <Slider key={id} defaultValue={currentProgress} aria-label="Default" valueLabelDisplay="auto" disabled={!update} color={calculatePriority()} onChange={handleSliderChange}/>
             </Stack>
           </CardContent>
         </Collapse>

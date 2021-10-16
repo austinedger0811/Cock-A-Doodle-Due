@@ -1,5 +1,5 @@
 import React from 'react'
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Legend, ResponsiveContainer } from 'recharts'
 
 
 const TimeChart = ({ estimatedTime, timeCompleted, timeRemaining }) => {
@@ -14,10 +14,10 @@ const TimeChart = ({ estimatedTime, timeCompleted, timeRemaining }) => {
   ] 
 
   return (
-    <ResponsiveContainer width={84} height={84}>
+    <ResponsiveContainer width={100} height={120}>
       <PieChart>
-        <Pie data={remaining} dataKey="time" outerRadius={30} fill="#8884d8" />
-        <Pie data={estimate} dataKey="time" innerRadius={32} outerRadius={42} fill="#82ca9d" />
+        <Pie data={estimate} dataKey="time" nameKey="name" innerRadius={35} outerRadius={50} fill="#82ca9d"  />
+        <Pie data={remaining} dataKey="time" nameKey="name" outerRadius={30} fill="#8884d8"  />
       </PieChart>
     </ResponsiveContainer>
   )
