@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography'
 
 const Reminders = () => {
 
-
   const [reminders, setReminders] = useState([])
 
   useEffect(() => {
@@ -18,6 +17,8 @@ const Reminders = () => {
       setReminders(response.data)
     }).catch(error => console.log(error))
   }, [])
+
+
 
   const handleReminderChange= (data) => {
     setReminders(data)

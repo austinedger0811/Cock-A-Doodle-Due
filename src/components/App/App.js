@@ -1,4 +1,5 @@
 import React from 'react'
+import { AuthProvider } from '../../contexts/AuthContext'
 
 import NavBar from '../NavBar'
 import Assignments from '../Assignments'
@@ -10,19 +11,21 @@ import Grid from '@mui/material/Grid'
 const App = () => {
 
   return (
-    <React.Fragment>
-      <NavBar />
-      <Container maxWidth="xl">
-        <Grid container spacing={4}>
-          <Grid item xs={8}>
-            <Assignments /> 
+    <AuthProvider>
+      <React.Fragment>
+        <NavBar />
+        <Container maxWidth="xl">
+          <Grid container spacing={4}>
+            <Grid item xs={8}>
+              <Assignments /> 
+            </Grid>
+            <Grid item xs={4}>
+              <Reminders />
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Reminders />
-          </Grid>
-        </Grid>
-      </Container>
-    </React.Fragment>
+        </Container>
+      </React.Fragment>
+    </AuthProvider>
   )
 }
 
