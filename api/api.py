@@ -50,14 +50,14 @@ def update_assignment(id):
 
     estimate = assignment_dict['estimate']
     progress = request.json['progress']
-    print(progress)
     time_completed = round((estimate * (progress / 100)), 1)
     time_remaining = round((estimate - time_completed), 1)
     complete = True if progress == 100 else False
     data = assignment_dict['data']
-    due_date = datetime.fromisoformat(assignment_dict['timestamp'])
+    assigned_date = datetime.fromisoformat(
+        assignment_dict['assignedDate'][0:-1])
     current_date = datetime.now()
-    days_object = current_date - due_date
+    days_object = current_date - assigned_date
     days = round(days_object.total_seconds() / 86400, 2)
     data.append({'days': days, 'progress': progress})
     assignment.update({
@@ -78,9 +78,16 @@ def delete_assignment(id):
     return get_user_assignments_list(uid)
 
 
-@app.route('/api/v1/delete-assignments', methods=['DELETE'])
-def delete_assignments():
-    pass
+@app.route('/api/v1/delete-completed-assignments', methods=['DELETE'])
+def deleted_completed_assignments():
+    uid = get_uid(request)
+    user_assingnments = users.document(uid).collection(u'assignments')
+    for assignment in user_assingnments.stream():
+        assignment_dict = assignment.to_dict()
+        if assignment_dict['complete'] == True:
+            doc_id = assignment_dict['id']
+            user_assingnments.document(doc_id).delete()
+    return get_user_assignments_list(uid)
 
 
 @app.route('/api/v1/delete-reminder/<id>', methods=['DELETE'])
@@ -90,11 +97,12 @@ def delete_reminder(id):
 
 
 def create_assignment(uid, assignment):
-    now = datetime.now()
-    total_days = (datetime.fromisoformat(assignment['date'][0:-1]) - now).days
+    due_date = datetime.fromisoformat(assignment['date'][0:-1])
+    assigned_date = datetime.fromisoformat(assignment['assignedDate'][0:-1])
+    total_days = (due_date - assigned_date).days
     assignment_id = assignments.document().id
     assignment['id'] = assignment_id
-    assignment['timestamp'] = now.isoformat()
+    assignment['timestamp'] = datetime.now().isoformat()
     assignment['complete'] = False
     assignment['progress'] = 0
     assignment['time_completed'] = 0

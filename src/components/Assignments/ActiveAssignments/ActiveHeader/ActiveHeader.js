@@ -31,6 +31,7 @@ const ActiveHeader = ({ assignments, onAssignmentChange }) => {
   const [name, setName] = useState(null)
   const [description, setDescription] = useState(null)
   const [estimate, setEstimate] = useState(0)
+  const [assignedDate, setAssignedDate] = useState(null)
   const [date, setDate] = useState(null)
   const { currentUser } = useAuth()
 
@@ -43,6 +44,7 @@ const ActiveHeader = ({ assignments, onAssignmentChange }) => {
     setName(null)
     setDescription(null)
     setEstimate(0)
+    setAssignedDate(null)
     setDate(null)
   };
 
@@ -59,6 +61,7 @@ const ActiveHeader = ({ assignments, onAssignmentChange }) => {
         name: name,
         description: description,
         estimate: estimate,
+        assignedDate: assignedDate,
         date: date
       }
 
@@ -110,6 +113,16 @@ const ActiveHeader = ({ assignments, onAssignmentChange }) => {
                 variant="standard"
                 onChange={(event) => setDescription(event.target.value)}
               />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  label="Assigned Date"
+                  value={assignedDate}
+                  onChange={(newValue) => {
+                    setAssignedDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   label="Due Date"

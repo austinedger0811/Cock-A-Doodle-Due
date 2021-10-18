@@ -34,17 +34,17 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const calculateCurrentDate = (timestamp) => {
+const calculateCurrentDate = (assignedDate) => {
   var currentDate = moment()
-  var hours = currentDate.diff(timestamp, 'hours') 
+  var hours = currentDate.diff(assignedDate, 'hours') 
   return (hours / 24).toFixed(2)
 }
 
 const Assignment = ({ assignment, onAssignmentChange }) => {
 
-  const { id, name, date, timestamp, progress, description, data, estimate, time_completed, time_remaining, complete, total_days } = assignment
+  const { id, name, date, timestamp, progress, description, data, estimate, assignedDate, time_completed, time_remaining, complete, total_days } = assignment
 
-  const currentDays = calculateCurrentDate(timestamp)
+  const currentDays = calculateCurrentDate(assignedDate)
 
   const [expanded, setExpanded] = useState(false)
   const [update, setUpdate] = useState(false)
@@ -112,7 +112,7 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
     }
 
     var currentDate = moment()
-    var startDate = moment(timestamp)
+    var startDate = moment(assignedDate)
     var dueDate = moment(date) 
 
     var totalHours = dueDate.diff(startDate, 'hours')

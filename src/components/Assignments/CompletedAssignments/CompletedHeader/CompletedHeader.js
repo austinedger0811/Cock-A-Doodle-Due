@@ -1,23 +1,32 @@
 import React from 'react'
 import axios from 'axios'
 
+import { useAuth } from '../../../../contexts/AuthContext'
+
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 const CompletedHeader = ({ assignments, onAssignmentChange }) => {
 
+  const { currentUser } = useAuth()
+
   const count = assignments.length
   const hours = Math.round(assignments.reduce((sum, assignment) => sum + assignment.estimate, 0) * 10) / 10
 
   const handleClearAll = () => {
-    let ids = []
-    for (let assignment of assignments) {
-      ids.push(assignment.id)
-    }
-    axios.delete(`/delete-assignments/`, ids)
+    if (currentUser) {
+      currentUser.getIdToken().then(function(idToken) {
+        axios.delete('/delete-completed-assignments', {
+          headers: {
+            'Authorization': `Bearer ${idToken}`
+          }
+        })
         .then(response => onAssignmentChange(response.data))
         .catch(error => console.log(error))
+      })
+
+    }
   }
 
   return (
