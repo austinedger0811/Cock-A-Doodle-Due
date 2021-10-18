@@ -3,6 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import styled from '@mui/material/styles/styled'
 
+import { useAuth } from '../../../contexts/AuthContext'
 import ProgressChart from './ProgressChart'
 import TimeChart from './TimeChart'
 
@@ -48,6 +49,7 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
   const [expanded, setExpanded] = useState(false)
   const [update, setUpdate] = useState(false)
   const [currentProgress, setCurrentProgress] = useState(progress)
+  const { currentUser } = useAuth()
 
   const handleSliderChange = (event, newValue) => {
     setCurrentProgress(newValue)
@@ -64,16 +66,31 @@ const Assignment = ({ assignment, onAssignmentChange }) => {
   }
 
   const handleProgressSave = () => {
+
     const newProgress = { progress: currentProgress }
-    axios.put(`/update-assignment/${id}`, newProgress)
-        .then(response => afterUpdate(response.data))
-        .catch(error => console.log(error))
+
+    currentUser.getIdToken().then(function(idToken) {
+      axios.put(`/update-assignment/${id}`, newProgress, {
+        headers: {
+          'Authorization': `Bearer ${idToken}`
+        }
+      })
+      .then(response => afterUpdate(response.data))
+      .catch(error => console.log(error))
+    })
   }
 
   const removeAssignment = () => {
-    axios.delete(`/delete-assignment/${id}`)
+
+    currentUser.getIdToken().then(function(idToken) {
+      axios.delete(`/delete-assignment/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${idToken}`
+        }
+      })
       .then(response => afterRemove(response.data))
       .catch(error => console.log(error))
+    })
   }
 
   const handleExpandClick = () => {

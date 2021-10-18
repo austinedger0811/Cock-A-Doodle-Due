@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
+import { useAuth } from '../../../../contexts/AuthContext'
+
 import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
 import TextField from '@mui/material/TextField'
@@ -30,6 +32,7 @@ const ActiveHeader = ({ assignments, onAssignmentChange }) => {
   const [description, setDescription] = useState(null)
   const [estimate, setEstimate] = useState(0)
   const [date, setDate] = useState(null)
+  const { currentUser } = useAuth()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,16 +53,26 @@ const ActiveHeader = ({ assignments, onAssignmentChange }) => {
 
   const createAssignment = () => {
 
-    const newAssignment = {
-      name: name,
-      description: description,
-      estimate: estimate,
-      date: date
-    }
+    if (currentUser) {
 
-    axios.post('/add-assignment', newAssignment)
-    .then(response => afterCreate(response.data))
-    .catch(error => console.log(error))
+      const newAssignment = {
+        name: name,
+        description: description,
+        estimate: estimate,
+        date: date
+      }
+
+      currentUser.getIdToken().then(function(idToken) {
+        axios.post('/add-assignment', newAssignment, {
+          headers: {
+            'Authorization': `Bearer ${idToken}`
+          }
+        })
+        .then(response => afterCreate(response.data))
+        .catch(error => console.log(error))
+      })
+
+    }
   }
 
   return (

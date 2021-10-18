@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, auth
 from datetime import datetime
 
 app = Flask(__name__)
@@ -11,13 +11,15 @@ cred = credentials.Certificate('key.json')
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
+users = db.collection(u'users')
 assignments = db.collection(u'assignments')
 reminders = db.collection(u'reminders')
 
 
 @app.route('/api/v1/assignments', methods=['GET'])
 def get_assignments():
-    return get_assignments_list()
+    uid = get_uid(request)
+    return get_user_assignments_list(uid)
 
 
 @app.route('/api/v1/reminders', methods=['GET'])
@@ -25,15 +27,11 @@ def get_reminders():
     return get_reminders_list()
 
 
-@app.route('/api/v1/assignment/<id>', methods=['GET'])
-def get_assignment(id):
-    return jsonify(assignments.document(id).get().to_dict())
-
-
 @app.route('/api/v1/add-assignment', methods=['POST'])
 def add_assignmnet():
-    create_assignment(request.json)
-    return get_assignments_list()
+    uid = get_uid(request)
+    create_assignment(uid, request.json)
+    return get_user_assignments_list(uid)
 
 
 @app.route('/api/v1/add-reminder', methods=['POST'])
@@ -45,7 +43,9 @@ def add_reminder():
 @app.route('/api/v1/update-assignment/<id>', methods=['PUT'])
 def update_assignment(id):
 
-    assignment = assignments.document(id)
+    uid = get_uid(request)
+
+    assignment = users.document(uid).collection(u'assignments').document(id)
     assignment_dict = assignment.get().to_dict()
 
     estimate = assignment_dict['estimate']
@@ -68,13 +68,14 @@ def update_assignment(id):
         u'data': data
     })
 
-    return get_assignments_list()
+    return get_user_assignments_list(uid)
 
 
 @app.route('/api/v1/delete-assignment/<id>', methods=['DELETE'])
 def delete_assignment(id):
-    assignments.document(id).delete()
-    return get_assignments_list()
+    uid = get_uid(request)
+    users.document(uid).collection(u'assignments').document(id).delete()
+    return get_user_assignments_list(uid)
 
 
 @app.route('/api/v1/delete-assignments', methods=['DELETE'])
@@ -88,7 +89,7 @@ def delete_reminder(id):
     return get_reminders_list()
 
 
-def create_assignment(assignment):
+def create_assignment(uid, assignment):
     now = datetime.now()
     total_days = (datetime.fromisoformat(assignment['date'][0:-1]) - now).days
     assignment_id = assignments.document().id
@@ -100,7 +101,8 @@ def create_assignment(assignment):
     assignment['time_remaining'] = assignment['estimate']
     assignment['total_days'] = total_days
     assignment['data'] = [{'days': 0, 'progress': 0}]
-    assignments.document(assignment_id).set(assignment)
+    users.document(uid).collection(u'assignments').document(
+        assignment_id).set(assignment)
 
 
 def create_reminder(reminder):
@@ -114,5 +116,16 @@ def get_assignments_list():
     return jsonify([doc.to_dict() for doc in assignments.order_by(u'date').stream()])
 
 
+def get_user_assignments_list(uid):
+    user_assignments = users.document(uid).collection(u'assignments')
+    return jsonify([doc.to_dict() for doc in user_assignments.order_by(u'date').stream()])
+
+
 def get_reminders_list():
     return jsonify([doc.to_dict() for doc in reminders.order_by(u'timestamp').stream()])
+
+
+def get_uid(request):
+    id_token = request.headers['Authorization'].split(' ').pop()
+    decoded_token = auth.verify_id_token(id_token)
+    return decoded_token['uid']
